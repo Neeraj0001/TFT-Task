@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>To-Do</title>
+  </head>
+  <body>
+<!-- Image and text -->
+<div class="container">
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="https://www.tftus.com/">
+      <img src="/static/media/logo-1.png" width="60" height="40" class="d-inline-block align-top" alt="" style="float:left">
+      <h4>Think Future Technnologies</h4>
+    </a>
+  </nav>
+<br>
+<div class="row">
+    <div class="col-sm-2"></div>
+<div class="col-sm-4">
+    <h4>ANY TASK FOR TODAY</h4>
+</div>
+<div class="col-sm-4">
+
+      <!-- Modal -->
+      <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        + Create
+      </button>
+    </div>
+    </div>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">        
+            <form method="POST" action="/Todo/">
+                
+                <div class="form-group">
+                    {% csrf_token %}
+                        <label for="exampleFormControlTextarea1">Add Task</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="task"></textarea>
+            
+                    <button type="submit" class="btn btn-secondary btn-lg">Submit</button>
+                  </div>
+                
+
+        </form> 
+  </div>
+</div>
+
+
+<br>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Status</th>
+        <th scope="col">Task</th>
+        <th scope="col"><center>Action</center></th>
+        <th scope="col"><center>Delete</center></th>
+
+      </tr>
+    </thead>
+    <tbody>
+    {% if lists %}
+    {% for things in lists %}
+    {% if things.action %}
+    <tr>
+        <td><i class="fa fa-check" style="font-size:30px;color:black"></i></td>
+        <td>{{things.task}}</td>
+        <td><center><a href="{% url 'not-complete' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Not-Complete</button></a></center></td>
+        <td><center><a href="{% url 'remove' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a></center></td>
+
+
+      </tr>
+      {% else %}
+      <tr>
+        <td><i class="fa fa-close" style="font-size:30px;color:red"></i></td>
+        <td>{{things.task}}</td>
+        <td><center><a href="{% url 'complete' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Complete</button></a></center></td>
+
+        <td><center><a href="{% url 'remove' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a></center></td>
+
+
+      </tr>
+      {% endif %}
+      {% endfor %}
+
+    {% endif %}
+
+    </tbody>
+  </table>
+  <div class="fixed-bottom">
+  <footer class="bg-light text-center text-lg-start">
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2022 Copyright:
+      <a class="text-dark" href="https://www.tftus.com/">Think Future Technologies</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  </div>
+</div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+</html>
