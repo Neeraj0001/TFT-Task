@@ -7,27 +7,20 @@ from django.contrib import messages
 from .models import todoList
 from django.http import HttpResponseRedirect
 from Accounts.models import Users
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 
 def index(request):
-  print(request.method)
-  print(request.user)
-
   if request.method=='POST':
     form=todoForm(request.POST)
     print(form.is_valid)
     if form.is_valid():
-        print('asdasdasdasdasdsa')
         temp=form.save(commit=False)
         temp.user=request.user
         temp.save()
-        print("Enter")
-        # todoList.objects.create(task=request.POST['task'],user=request.user.id)
         return HttpResponseRedirect("../Todo/")
     all_items=todoList.objects.filter(user=request.user)
     return render(request,'demo.html',{'lists':all_items})
   elif request.method=='GET':
-    
     all_items=todoList.objects.filter(user=request.user)
     return render(request,'demo.html',{'lists':all_items})
 
@@ -89,6 +82,9 @@ def sign_in(request):
       else:
         message.info(request,"Invalid Credential !!!")
         return redirect('sign_in')
-        
-
     return render(request,'sign_in.html')
+
+
+def sign_out(request):
+  logout(request)
+  return redirect('sign_in')

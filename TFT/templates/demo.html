@@ -21,9 +21,14 @@
     {% if user %}
     <span class="navbar-text">
     
-     {{user.first_name}}
+     Hey, {{user.first_name}} {{user.last_name}} !!!
     </span>
     {% endif %}
+    <span class="navbar-text">
+     <a href="{% url 'sign_out' %}"><button type="button" class="btn btn-secondary btn-sm">Sign Out</button></a>
+
+    
+     </span>
   </nav>
 <br>
 <div class="row">
