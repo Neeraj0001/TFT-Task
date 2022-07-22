@@ -18,6 +18,12 @@
       <img src="/static/media/logo-1.png" width="60" height="40" class="d-inline-block align-top" alt="" style="float:left">
       <h4>Think Future Technnologies</h4>
     </a>
+    {% if user %}
+    <span class="navbar-text">
+    
+     {{user.first_name}}
+    </span>
+    {% endif %}
   </nav>
 <br>
 <div class="row">
