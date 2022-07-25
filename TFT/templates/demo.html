@@ -14,33 +14,42 @@
 <!-- Image and text -->
 <div class="container">
 <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="https://www.tftus.com/">
+    <a class="navbar-brand" href="{% url 'index' %}">
       <img src="/static/media/logo-1.png" width="60" height="40" class="d-inline-block align-top" alt="" style="float:left">
       <h4>Think Future Technnologies</h4>
     </a>
     {% if user %}
     <span class="navbar-text">
-    
-     Hey, {{user.first_name}} {{user.last_name}} !!!
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Hii, {{user.first_name}} {{user.last_name}} !!!
+        </button>
+        <a href="{{user.profile_picture.url}}" class="navbar-brand">
+          <img src="{{user.profile_picture.url}}" height="50" alt="CoolBrand" class="rounded-circle">
+      </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="{% url 'index' %}">Dashboard</a>
+          <a class="dropdown-item" href="{% url 'edit_details' %}">Edit Details</a>
+          <a class="dropdown-item" href="{% url 'resend_otp' user.email %}">Change Password</a>
+          <a class="dropdown-item" href="{% url 'sign_out' %}">Sign Out</a>
+        </div>
+      </div>
+
     </span>
     {% endif %}
-    <span class="navbar-text">
-     <a href="{% url 'sign_out' %}"><button type="button" class="btn btn-secondary btn-sm">Sign Out</button></a>
 
-    
-     </span>
   </nav>
 <br>
 <div class="row">
-    <div class="col-sm-2"></div>
-<div class="col-sm-4">
-    <h4>ANY TASK FOR TODAY</h4>
+    <div class="col-sm-4"></div>
+<div class="col-sm-3">
+    <h4>ADD YOUR TASK</h4>
 </div>
-<div class="col-sm-4">
+<div class="col-sm-2">
 
       <!-- Modal -->
       <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-        + Create
+        + CREATE
       </button>
 
     </div>
@@ -49,12 +58,17 @@
     <br>
     <div class="collapse" id="collapseExample">
         <div class="card card-body">        
-            <form method="POST" action="/Todo/">
+            <form method="POST" action="/Todo/" enctype="multipart/form-data">
                 
                 <div class="form-group">
                     {% csrf_token %}
                         <label for="exampleFormControlTextarea1">Add Task</label>
+
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="task"></textarea>
+                        <div class="form-group">
+                          <label for="exampleFormControlFile1">Add any Image</label>
+                          <input type="file" class="form-control-file" id="exampleFormControlFile1" name="picture" accept="image/*">
+                        </div>
             <br>
                     <button type="submit" class="btn btn-secondary btn-lg">Submit</button>
                   </div>
@@ -71,9 +85,10 @@
       <tr>
         <th scope="col">Status</th>
         <th scope="col">Task</th>
+        <th scope="col"><center>Task Image</center></th>
         <th scope="col"><center>Action</center></th>
         <th scope="col"><center>Delete</center></th>
-
+        <th scope="col"><center>Update Image</center></th>
       </tr>
     </thead>
     <tbody>
@@ -83,8 +98,13 @@
     <tr>
         <td><i class="fa fa-check" style="font-size:30px;color:black"></i></td>
         <td>{{things.task}}</td>
+        <td><center><a href="{{things.picture.url}}" class="navbar-brand">
+          <img src="{{things.picture.url}}" height="28" alt="CoolBrand">
+      </a></center></td>
         <td><center><a href="{% url 'not-complete' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Not-Complete</button></a></center></td>
         <td><center><a href="{% url 'remove' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a></center></td>
+        <td><center><a href="{% url 'update' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Update</button></a></center></td>
+
 
 
       </tr>
@@ -92,9 +112,13 @@
       <tr>
         <td><i class="fa fa-close" style="font-size:30px;color:red"></i></td>
         <td>{{things.task}}</td>
+        <td><center><a href="{{things.picture.url}}" class="navbar-brand">
+          <img src="{{things.picture.url}}" height="28" alt="CoolBrand">
+      </a></center></td>
         <td><center><a href="{% url 'complete' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Complete</button></a></center></td>
 
         <td><center><a href="{% url 'remove' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a></center></td>
+        <td><center><a href="{% url 'update' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Update</button></a></center></td>
 
 
       </tr>

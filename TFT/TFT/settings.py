@@ -148,4 +148,7 @@ EMAIL_PORT=587
 EMAIL_HOST_USER="neerajpandey0531@gmail.com"
 EMAIL_HOST_PASSWORD="djidjaocltpvkbny"
 DEFAULT_FROM_EMAIL="Celery <neerajpandey0531@gmail.com>"
-# djidjaocltpvkbny
+
+#Media URL
+MEDIA_ROOT= os.path.join(BASE_DIR,'media')
+MEDIA_URL='/media/'

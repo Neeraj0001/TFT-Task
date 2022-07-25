@@ -5,9 +5,11 @@ from django.urls import path
 
 urlpatterns = [
     path("",views.index,name="index"),
+    path("edit_details",views.edit_details,name="edit_details"),
     path("remove/<id>",views.remove,name="remove"),
     path("complete/<id>",views.complete,name="complete"),
     path("not-complete/<id>",views.not_complete,name="not-complete"),
+    path("update/<id>",views.update,name="update"),
     path("sign_up",views.sign_up,name="sign_up"),
     path("sign_in",views.sign_in,name="sign_in"),
     path('logout', views.sign_out,name="sign_out"),

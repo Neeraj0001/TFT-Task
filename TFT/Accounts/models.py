@@ -1,15 +1,22 @@
 import code
+from email.policy import default
 from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,AbstractUser
 from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
 import random
+import os
 
 # Create your models here.
+def image_file_name(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = "%s-%s-%s.%s" % (instance.first_name, instance.last_name,instance.id, ext)
+    return os.path.join('profile_picture', filename)
 class Users(AbstractUser):
     username=None
     email=models.EmailField(_('email address'),unique=True)
+    profile_picture = models.ImageField(upload_to=image_file_name,null=True, blank=True,default="user_logo.png")
     USERNAME_FIELD='email'
     REQUIRED_FIELDS=[]
     objects=CustomUserManager()

@@ -3,7 +3,7 @@ from email import message
 import imp
 import re
 from django.shortcuts import render, redirect
-from .forms import todoForm
+from .forms import todoForm,customForm
 from django.contrib import messages
 from .models import todoList
 from django.http import HttpResponseRedirect
@@ -14,7 +14,7 @@ from django.contrib.auth.hashers import check_password
 
 def index(request):
   if request.method=='POST':
-    form=todoForm(request.POST)
+    form=todoForm(request.POST,request.FILES)
     print(form.is_valid)
     if form.is_valid():
         temp=form.save(commit=False)
@@ -42,6 +42,12 @@ def complete(request,id):
 
 
 def not_complete(request,id):
+    item=todoList.objects.get(pk=id)
+    item.action=False
+    item.save()
+    return redirect('index')
+
+def update(request,id):
     item=todoList.objects.get(pk=id)
     item.action=False
     item.save()
@@ -158,6 +164,16 @@ def resend_otp(request,email):
   send_mail_otp(user.email,msgs,sub)
   return redirect('verify_otp',email=user.email) 
       
+def edit_details(request):
+  user=request.user
+  form=customForm(instance=user)
+  if request.method =="POST":
+    form=customForm(request.POST,request.FILES,instance=user)
+    if form.is_valid():
+      form.save()
+  context={'form':form}
+  return render(request,'edit_detail.html',context)
+
 
     
 
