@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Todo',
     'Accounts',
+    'celery_task',
+    'django_celery_results'
 ]
 
 MIDDLEWARE = [
@@ -117,11 +119,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -152,3 +154,11 @@ DEFAULT_FROM_EMAIL="Celery <neerajpandey0531@gmail.com>"
 #Media URL
 MEDIA_ROOT= os.path.join(BASE_DIR,'media')
 MEDIA_URL='/media/'
+
+# Celery Configurations
+CELERY_BROKER_URL='redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT=['application/json']
+CELERY_RESULT_SERIALIZER='json'
+CELERY_TASK_SERIALIZER='json'
+CELERY_TIMEZONE='Asia/Kolkata'
+CELERY_RESULT_BACKEND='django-db'
