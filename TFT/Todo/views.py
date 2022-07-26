@@ -22,7 +22,7 @@ def index(request):
         temp.save()
         return HttpResponseRedirect("../Todo/")
     all_items=todoList.objects.filter(user=request.user)
-    return render(request,'demo.html',{'lists':all_items})
+    return render(request,'demo.html',{'lists':all_items,'form':form})
   elif request.method=='GET':
     all_items=todoList.objects.filter(user=request.user)
     return render(request,'demo.html',{'lists':all_items})
@@ -80,15 +80,20 @@ def sign_up(request):
 
 
 def sign_in(request):
-    print(request.method)
     if request.method=='POST':
       email=request.POST['email']
       password=request.POST['password']
       user=authenticate(email=email,password=password)
-      print(user)
       if user is not None:
-        login(request,user)
-        return redirect("index")
+        if user.is_superuser and user.is_staff:
+          pass
+          # login(request,user)
+          # return redirect("admin")
+          
+        else:
+          login(request,user)
+          return redirect("index")
+        
       else:
         messages.info(request,"Invalid Credential !!!")
         return redirect('sign_in')
@@ -105,7 +110,6 @@ def send_otp(request):
     email=request.POST['email']
     user=Users.objects.filter(email=email)
     val=user.exists()
-    print(val)
     if val:
       user=Users.objects.get(email=email)
       Code.objects.get(user=user).save()

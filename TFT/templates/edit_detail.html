@@ -45,7 +45,7 @@
 <div class="row">
 	<div class="col-md-3">
 		<div class="card card-body">
-			<a class="btn btn-warning" href="{% url 'index' %}"> &#8592; Back to Profile</a>
+			<a class="btn btn-secondary" href="{% url 'index' %}"> &#8592; Back to Profile</a>
 			<hr>
 			<h3 style="text-align: center">Account Settings</h3>
 			<hr>
@@ -55,12 +55,24 @@
 	</div>
 	<div class="col-md-9">
 		<div class="card card-body">
-			
+
 			<form method="POST" action="" enctype="multipart/form-data">
 				{% csrf_token %}
-				{{form.as_p}}
-		
-			<input class="btn btn-primary" type="submit" name="Update Information">
+        {% for field in form %}
+            <div class="submit-link-row">{{ field.label_tag }} <br> {{ field }}</div>
+            {% if form.errors %}
+                {% for error in field.errors %}
+                <p class="error-message">
+                    <strong>{{ error|escape }}</strong>
+                </p>
+                {% endfor %}
+            {% endif %}
+            <!-- {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %} -->
+        {% endfor %}
+
+			<input class="btn btn-secondary" type="submit" name="Update Information">
 			</form>
 		</div>
 	</div>
