@@ -2,6 +2,7 @@
 from email import message
 import imp
 import re
+from tkinter import Image
 from django.shortcuts import render, redirect
 from .forms import todoForm,customForm
 from django.contrib import messages
@@ -11,18 +12,21 @@ from Accounts.models import Users,Code
 from django.contrib.auth import authenticate,login,logout
 from .utils import send_mail_otp
 from django.contrib.auth.hashers import check_password
+from .task import check_task_image
 
 def index(request):
   if request.method=='POST':
     form=todoForm(request.POST,request.FILES)
-    print(form.is_valid)
     if form.is_valid():
         temp=form.save(commit=False)
         temp.user=request.user
         temp.save()
+        check_task_image.delay(temp.pk)
         return HttpResponseRedirect("../Todo/")
+    
     all_items=todoList.objects.filter(user=request.user)
     return render(request,'demo.html',{'lists':all_items,'form':form})
+
   elif request.method=='GET':
     all_items=todoList.objects.filter(user=request.user)
     return render(request,'demo.html',{'lists':all_items})

@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from celery_task.task import test_func
+
 from .task import test_func
 # Create your views here.
 def test(request):

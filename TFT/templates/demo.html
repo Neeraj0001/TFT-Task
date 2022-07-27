@@ -102,6 +102,7 @@
         <th scope="col"><center>Action</center></th>
         <th scope="col"><center>Delete</center></th>
         <th scope="col"><center>Update Image</center></th>
+        <th scope="col"><center>Image Description</center></th>
       </tr>
     </thead>
     <tbody>
@@ -117,6 +118,7 @@
         <td><center><a href="{% url 'not-complete' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Not-Complete</button></a></center></td>
         <td><center><a href="{% url 'remove' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a></center></td>
         <td><center><a href="{% url 'update' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Update</button></a></center></td>
+        <td><center>{{things.description}}</center></td>
 
 
 
@@ -132,6 +134,7 @@
 
         <td><center><a href="{% url 'remove' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a></center></td>
         <td><center><a href="{% url 'update' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Update</button></a></center></td>
+        <td><center>{{things.description}}</center></td>
 
 
       </tr>
