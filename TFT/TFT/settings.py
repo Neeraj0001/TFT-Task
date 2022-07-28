@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import environ
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(qzch)$+u2dfnr)502rgi29q_f+-*-)vlzh)ij-0cl%qma(gr&'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -89,7 +92,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'TFT',
         'USER': 'postgres',
-        'PASSWORD': '1234',
+        'PASSWORD': env('DB_PASSWORD'),
         'HOST': 'localhost',
     }
 }
@@ -147,8 +150,8 @@ EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS=True
 EMAIL_HOST="smtp.gmail.com"
 EMAIL_PORT=587
-EMAIL_HOST_USER="neerajpandey0531@gmail.com"
-EMAIL_HOST_PASSWORD="djidjaocltpvkbny"
+EMAIL_HOST_USER=env('MAIL_USER')
+EMAIL_HOST_PASSWORD=env('MAIL_PASSWORD')
 DEFAULT_FROM_EMAIL="Celery <neerajpandey0531@gmail.com>"
 
 #Media URL
@@ -156,7 +159,7 @@ MEDIA_ROOT= os.path.join(BASE_DIR,'media')
 MEDIA_URL='/media/'
 
 # Celery Configurations
-CELERY_BROKER_URL='redis://127.0.0.1:6379'
+CELERY_BROKER_URL=env('CELERY_BROKER_URL')
 CELERY_ACCEPT_CONTENT=['application/json']
 CELERY_RESULT_SERIALIZER='json'
 CELERY_TASK_SERIALIZER='json'

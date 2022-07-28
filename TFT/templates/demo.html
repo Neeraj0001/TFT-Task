@@ -79,7 +79,7 @@
 </div>
 
 
-<br>
+
 {% for field in form %}
 {% if form.errors %}
     {% for error in field.errors %}
@@ -102,6 +102,7 @@
         <th scope="col"><center>Action</center></th>
         <th scope="col"><center>Delete</center></th>
         <th scope="col"><center>Update Image</center></th>
+        <th scope="col"><center>Valid Image Format</center></th>
         <th scope="col"><center>Image Description</center></th>
       </tr>
     </thead>
@@ -118,7 +119,14 @@
         <td><center><a href="{% url 'not-complete' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Not-Complete</button></a></center></td>
         <td><center><a href="{% url 'remove' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a></center></td>
         <td><center><a href="{% url 'update' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Update</button></a></center></td>
-        <td><center>{{things.description}}</center></td>
+        {% if things.img_format_valid %}
+        <td><center><i class="fa fa-check" style="font-size:30px;color:black"></i></center></td>
+        {% else %}
+        <td><center><i class="fa fa-close" style="font-size:30px;color:red"></i></center></td>
+        {% endif %}
+        <td><center><textarea cols="50" rows="3" style="overflow:auto;">
+          {{things.description}}
+          </textarea></center></td>
 
 
 
@@ -134,7 +142,14 @@
 
         <td><center><a href="{% url 'remove' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Delete</button></a></center></td>
         <td><center><a href="{% url 'update' things.id %}"><button type="button" class="btn btn-secondary btn-sm">Update</button></a></center></td>
-        <td><center>{{things.description}}</center></td>
+        {% if things.img_format_valid %}
+        <td><center><i class="fa fa-check" style="font-size:30px;color:black"></i></center></td>
+        {% else %}
+        <td><center><i class="fa fa-close" style="font-size:30px;color:red"></i></center></td>
+        {% endif %}
+        <td><center><textarea cols="50" rows="3" style="overflow:auto;">
+          {{things.description}}
+          </textarea></center></td>
 
 
       </tr>

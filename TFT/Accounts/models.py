@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
 import random
 import os
+from datetime import datetime   
 
 # Create your models here.
 def image_file_name(instance, filename):
@@ -26,6 +27,7 @@ class Users(AbstractUser):
 class Code(models.Model):
     user=models.OneToOneField(Users,on_delete=models.CASCADE)
     otp=models.CharField(max_length=5,blank=True)
+    date_time= models.DateTimeField(default=datetime.now, blank=True)
     def save(self,*args,**kwargs):
         number_list=[x for x in range(10)]
         code_items=[]
@@ -34,4 +36,5 @@ class Code(models.Model):
             code_items.append(num)
         code_string="".join(str(items) for items in code_items)
         self.otp=code_string
+        self.date_time=datetime.now()
         super().save(*args,**kwargs)
